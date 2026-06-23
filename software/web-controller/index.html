@@ -1103,12 +1103,14 @@ function go(name){
 
 // ─── CONNECT SHEET ───────────────────────────
 function openSheet(){ document.getElementById('overlay').classList.add('open'); setTimeout(()=>document.getElementById('robotIP').focus(),300); }
-function closeSheet(e){ if(e.target===document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open'); }
+function closeSheet(e){ if(!e || e.target===document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open'); }
 function dismissSheet(){ document.getElementById('overlay').classList.remove('open'); }
 
 function connectRobot(){
-  const ip = document.getElementById('robotIP').value.trim();
-  if(!ip){ log('Enter your robot IP or hostname'); return; }
+  const ip=document.getElementById('robotIP').value.trim();
+  if(!ip) return;
+  localStorage.setItem('robotIP', ip);
+  closeSheet();
   BASE = ip.startsWith('http') ? ip : 'http://'+ip;
   log('Connecting to '+BASE+' …');
   fetch(BASE+'/api/status', {signal: AbortSignal.timeout(5000)})
@@ -1239,10 +1241,16 @@ function saveSettings(){
   const fd=document.getElementById('frameDelay').value;
   const wc=document.getElementById('walkCycles').value;
   const md=document.getElementById('motorDelay').value;
+  
+  localStorage.setItem('frameDelay', fd);
+  localStorage.setItem('walkCycles', wc);
+  localStorage.setItem('motorDelay', md);
+
   const sel=document.querySelector('.swatch.sel');
   if(sel){ const hex=hexFromBg(sel.style.background); if(hex){ localStorage.setItem('accent',hex); setAccent(hex); } }
+  
   if(!DEMO) req('/setSettings?frameDelay='+fd+'&walkCycles='+wc+'&motorCurrentDelay='+md);
-  log('💾 Settings saved');
+  log('💾 Settings saved locally' + (!DEMO ? ' and to robot' : ''));
 }
 function hexFromBg(bg){
   const m=bg.match(/\d+/g);
@@ -1307,8 +1315,21 @@ document.addEventListener('keyup',e=>{
 document.addEventListener('DOMContentLoaded',()=>{
   buildMotors();
   buildSwatches();
-  const saved=localStorage.getItem('accent');
-  if(saved) setAccent(saved);
+  
+  const savedAccent=localStorage.getItem('accent');
+  if(savedAccent) setAccent(savedAccent);
+  
+  const savedIP=localStorage.getItem('robotIP');
+  if(savedIP) document.getElementById('robotIP').value = savedIP;
+
+  const fd=localStorage.getItem('frameDelay');
+  if(fd) document.getElementById('frameDelay').value = fd;
+  
+  const wc=localStorage.getItem('walkCycles');
+  if(wc) document.getElementById('walkCycles').value = wc;
+  
+  const md=localStorage.getItem('motorDelay');
+  if(md) document.getElementById('motorDelay').value = md;
 
   // Allow horizontal scroll with mouse wheel for quick poses
   const hscroll = document.querySelector('.hscroll');
