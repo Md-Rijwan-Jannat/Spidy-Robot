@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#080810">
   <title>Spidy Robot Controller</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -435,11 +436,15 @@
       display: flex;
       gap: var(--gap-sm);
       overflow-x: auto;
-      padding-bottom: 2px;
+      padding-bottom: 8px;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      scrollbar-width: thin;
+      scrollbar-color: var(--blue-muted) transparent;
     }
-    .hscroll::-webkit-scrollbar { display: none; }
+    .hscroll::-webkit-scrollbar { height: 6px; }
+    .hscroll::-webkit-scrollbar-track { background: transparent; }
+    .hscroll::-webkit-scrollbar-thumb { background: var(--blue-muted); border-radius: 3px; }
+    .hscroll::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 
     .pill-btn {
       flex-shrink: 0;
@@ -820,7 +825,9 @@
   <!-- ─── HEADER ──────────────────────────── -->
   <header>
     <div class="logo">
-      <div class="logo-icon">🕷️</div>
+      <div class="logo-icon" style="background: none; box-shadow: none;">
+        <img src="/icon.png" alt="Spidy Logo" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
       <div class="logo-text">
         <span class="primary">Spidy</span> Robot
         <span class="dim">CONTROLLER</span>
@@ -1302,6 +1309,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   buildSwatches();
   const saved=localStorage.getItem('accent');
   if(saved) setAccent(saved);
+
+  // Allow horizontal scroll with mouse wheel for quick poses
+  const hscroll = document.querySelector('.hscroll');
+  if (hscroll) {
+    hscroll.addEventListener('wheel', e => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        hscroll.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+  }
 });
 </script>
 </body>
