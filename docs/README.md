@@ -1,6 +1,6 @@
 # Documentation
 
-Documentation for the Sesame Robot project.
+Documentation for the Spidy Robot project.
 
 - **build-guide/** - Build guide with photos
 - **images/** - Photos and diagrams

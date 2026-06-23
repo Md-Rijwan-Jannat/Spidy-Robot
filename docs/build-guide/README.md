@@ -1,6 +1,6 @@
 # Build Guide
 
-Complete build guide for the Sesame Robot.
+Complete build guide for the Spidy Robot.
 
 Use this walkthrough alongside the BOM, wiring guide, and printing notes to stay organized. The table below previews each phase, its goal, and the doc to reference if you get stuck.
 
@@ -156,7 +156,7 @@ Before dropping hardware in, trim or bundle any stray wires so nothing can flop 
 
 <img src="assets/secure-electronics.png" alt="s2-secure-electronics" width="70%">
 
-4. **Distro Board V1 build (Legacy):** Install four M2.5 × 5 mm male-female standoffs to raise the Sesame Distro Board V1 so it clears the ESP32 DevKit. Then secure the assembly using the top screws.
+4. **Distro Board V1 build (Legacy):** Install four M2.5 × 5 mm male-female standoffs to raise the Spidy Distro Board V1 so it clears the ESP32 DevKit. Then secure the assembly using the top screws.
 
 <img src="assets/secure-distro-board.png" alt="secure-distro-board" width="70%">
 
@@ -177,22 +177,22 @@ Before dropping hardware in, trim or bundle any stray wires so nothing can flop 
 **For S2 Mini and Distro Board V1 (Legacy) Builds:**
 
 1. Inspect the harness to ensure no bare conductors can short during testing. Add heat-shrink or tape where needed.
-2. Connect a reliable USB-C cable and flash `sesame-motor-tester.ino` from the [debugging-firmware](../../firmware/debugging-firmware/) folder using Arduino IDE. If you have never flashed an ESP32 before, pause here and follow a quick tutorial so you are comfortable resetting/entering boot mode.
+2. Connect a reliable USB-C cable and flash `spidy-motor-tester.ino` from the [debugging-firmware](../../firmware/debugging-firmware/) folder using Arduino IDE. If you have never flashed an ESP32 before, pause here and follow a quick tutorial so you are comfortable resetting/entering boot mode.
 3. Open the serial monitor. You should see the tester menu.
 4. Command all motors to 90°. Starting from Motor 0, plug its connector into the appropriate header. The servo should immediately whirr into the 90° position. Repeat for Motors 1–7. Skip to Step 4 below.
 
 **For Distro Board V3/V2 (Build Kits):**
-If you are using a V3 or V2 Board from a Build Kit, it comes **pre-flashed** with the Sesame firmware! There is no need to plug into a computer and use Arduino IDE to flash firmware.
+If you are using a V3 or V2 Board from a Build Kit, it comes **pre-flashed** with the Spidy firmware! There is no need to plug into a computer and use Arduino IDE to flash firmware.
 
 1. **Power Up:** Plug the board into a strong USB power supply (fast chargers for phones or laptop chargers work great). Note: If you are using the V2 Distro board, it currently has instabilities with the battery system and won't work on batteries, you must plug via USB-C.
-2. **Connect to Portal:** Check the Wi-Fi networks on your phone or computer. The Sesame board will create an access point. Connect to it to open the controller portal. (If on desktop and the portal doesn't show, go to `sesame-root.local` in your browser. Mobile is recommended.)
+2. **Connect to Portal:** Check the Wi-Fi networks on your phone or computer. The Spidy board will create an access point. Connect to it to open the controller portal. (If on desktop and the portal doesn't show, go to `spidy-root.local` in your browser. Mobile is recommended.)
 3. **Initialize PWM:** Tap the "Standby" button in the portal to initialize the PWM channels. The moment you plug a motor in, it will go to its correct active position.
 
 **General instructions continuing:**
 
 4. **Refer to Diagram:** Use the diagram below to associate motor numbers with their physical position. Ensure the frames are roughly oriented correctly.
 
-<img src="assets/sesame-angle-guide.png" alt="angle-guide" width="100%">
+<img src="assets/spidy-angle-guide.png" alt="angle-guide" width="100%">
 
 5. **Plug Motors In:** Starting with Motor 0, plug the connector into the corresponding board header.
    - **Crucial:** Ensure the brown wire aligns with the ground rail! Upon plugging it in, you should hear it whir into life and hold position.
@@ -227,7 +227,7 @@ Now to clean up the robot and secure everything.
 4. **Testing the Switch:** Make sure the batteries are charged and insert them. Flip the switch and check if the Wi-Fi network appears or if the display lights up. If things aren't working, double-check connections.
 
 > [!NOTE]
-> **V2 Board Owners:** If you are using the V2 Distro board from a kit, there are instabilities with the battery system that prevent reliable battery usage. You must run your Sesame via USB-C (fast charger / laptop charger) for now. A free V3 Distro board will be provided to pre-order kit buyers!
+> **V2 Board Owners:** If you are using the V2 Distro board from a kit, there are instabilities with the battery system that prevent reliable battery usage. You must run your Spidy via USB-C (fast charger / laptop charger) for now. A free V3 Distro board will be provided to pre-order kit buyers!
 
 5. **Top Cover:** Gently pack all the bundles in and slowly press the top cover down onto the electronic components. Be very gentle to avoid shorting or disconnecting anything.
 6. **Securing Top Cover:** Hold the whole robot together and insert the M2 self-threading screws into the bottom of the frame where they thread securely into the mounting holes for the top cover.
@@ -251,11 +251,11 @@ Now to clean up the robot and secure everything.
 - [ ] Top and bottom covers installed.
 
 > [!TIP]
-> A common issue on battery power (if you upgrade) is that your Sesame robot will crash on movement. Setting the motor current delay higher in the settings may help, but upgrading to a Lithium Polymer (LiPo) cell often solves it for advanced users!
+> A common issue on battery power (if you upgrade) is that your Spidy robot will crash on movement. Setting the motor current delay higher in the settings may help, but upgrading to a Lithium Polymer (LiPo) cell often solves it for advanced users!
 
 Great job! The hardware is complete.
 
-<img src="assets/sesame-done.png" alt="sesame-done" width="70%">
+<img src="assets/spidy-done.png" alt="spidy-done" width="70%">
 
 ## Final Checks and Flashing the Firmware
 
@@ -272,6 +272,6 @@ If you are using the V2 Build kit board, you can skip this step! It is pre-flash
 
 1. Choose the code variant from the firmware folder. Customize pin definitions if you're using a different ESP32.
 2. Use Arduino IDE to flash the full firmware bundle (motors + faces). Detailed notes live in [firmware/README.md](../../firmware/README.md).
-3. Connect to Sesame’s Wi-Fi AP, load the control page, and trigger a pose to verify everything moves as expected.
+3. Connect to Spidy’s Wi-Fi AP, load the control page, and trigger a pose to verify everything moves as expected.
 
-That’s it. You’ve built Sesame! From here you can design new poses in [Sesame Studio](../../software/sesame-studio/README.md) or tweak the hardware per [hardware/README.md](../../hardware/README.md), or whatever you want!
+That’s it. You’ve built Spidy! From here you can design new poses in [Spidy Studio](../../software/spidy-studio/README.md) or tweak the hardware per [hardware/README.md](../../hardware/README.md), or whatever you want!

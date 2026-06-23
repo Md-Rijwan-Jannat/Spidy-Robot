@@ -1,6 +1,6 @@
 # Wiring Guide
 
-Complete wiring guides for the Sesame Robot.
+Complete wiring guides for the Spidy Robot.
 
 ---
 
@@ -9,8 +9,8 @@ Complete wiring guides for the Sesame Robot.
 The project supports multiple wiring strategies that suit different build constraints:
 
 - **Lolin S2 Mini / hand wiring (RECOMMENDED FOR DIY BUILDS):** Uses a Lolin S2 Mini, loose headers, and point-to-point wiring. It is the lowest-cost option, easy to source, supports USB-C PD for tethered power, but demands patience to keep the harness tidy and leaves less room for mistakes. **Critical: Use 30AWG wire for data lines and 22AWG for power—larger gauge wire will make assembly nearly impossible.**
-- **Sesame Distro Board V3 (INCLUDED IN NEW BUILD KITS):** The latest custom PCB with SMD components (V2 is also supported but legacy and limited to USB power due to battery brownouts), supports both USB-C PD and battery power. Pre-flashed and included with all Sesame Build Kits. Advanced to hand-solder; professional assembly recommended if ordering separately.
-- **Sesame Distro Board V1 / ESP32-DevKitC-32E (LEGACY):** Uses the custom Distro Board V1 PCB stacked on an ESP32-DevKitC-32E. Now phased out but still supported. V1 has known limitations and cannot run on tethered USB-C power (battery + buck converter required).
+- **Spidy Distro Board V3 (INCLUDED IN NEW BUILD KITS):** The latest custom PCB with SMD components (V2 is also supported but legacy and limited to USB power due to battery brownouts), supports both USB-C PD and battery power. Pre-flashed and included with all Spidy Build Kits. Advanced to hand-solder; professional assembly recommended if ordering separately.
+- **Spidy Distro Board V1 / ESP32-DevKitC-32E (LEGACY):** Uses the custom Distro Board V1 PCB stacked on an ESP32-DevKitC-32E. Now phased out but still supported. V1 has known limitations and cannot run on tethered USB-C power (battery + buck converter required).
 
 Pick the approach that matches your component availability and comfort with managing wire bundles; the remainder of this guide dives into both workflows.
 
@@ -76,12 +76,12 @@ When packing electronics into the frame, it's difficult with the hand wiring set
 
 ---
 
-## How to wire the Sesame Distro Board V1 / ESP32-DevKitC-32E
+## How to wire the Spidy Distro Board V1 / ESP32-DevKitC-32E
 
 ### Overview
 
 > [!CAUTION]
-> UPDATE 1/20/26: Upon further testing, the Sesame distro board V1 will work, but it has a few issues that make it a little harder to assemble and will not run on teathered power (eg. USB C). Until V2 is released, I recommend using the S2 Mini / Hand Wiring approach. If you ordered a distro board V1, it will still be supported with wiring guides and firmware for the foreseeable future <3.
+> UPDATE 1/20/26: Upon further testing, the Spidy distro board V1 will work, but it has a few issues that make it a little harder to assemble and will not run on teathered power (eg. USB C). Until V2 is released, I recommend using the S2 Mini / Hand Wiring approach. If you ordered a distro board V1, it will still be supported with wiring guides and firmware for the foreseeable future <3.
 
 This option provides a cleaner, more organized wiring solution.
 Consult the distro-board wiring diagram below for exact connection locations.
@@ -131,7 +131,7 @@ A buck converter takes any voltage (5V-12V) and drops it to a stable 5V for the 
 
 ### Sourcing the Distro Board
 
-The Sesame Distro Board V1 is a custom PCB designed specifically for this project. It mounts on top of a ESP32-DevKitC-32E.
+The Spidy Distro Board V1 is a custom PCB designed specifically for this project. It mounts on top of a ESP32-DevKitC-32E.
 
 More information is avalible in the [PCB](../../hardware/pcb/README.md) section of the documentation.
 

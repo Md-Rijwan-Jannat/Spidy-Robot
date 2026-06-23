@@ -101,7 +101,7 @@ This document provides technical information on the firmware architecture, contr
    - Open Serial Monitor (**Tools → Serial Monitor**, set baud rate to 115200)
    - Reset the board - you should see startup messages and network information
    - The serial monitor provides individual motor control for testing and troubleshooting
-   - **If using AP mode only**: Connect to the "Sesame-Controller-BETA" WiFi network (password: `12345678`) and navigate to any website
+   - **If using AP mode only**: Connect to the "Spidy-Controller-BETA" WiFi network (password: `12345678`) and navigate to any website
    - **If using network mode**: Look for the "Connected to network!" message in Serial Monitor, then access via `http://sesame-robot.local` or the displayed IP address
 
 ### Troubleshooting
@@ -187,7 +187,7 @@ The firmware now supports **dual-mode WiFi operation**, allowing the robot to si
 
 By default, the robot creates its own WiFi network:
 
-- **SSID**: `Sesame-Controller-BETA`
+- **SSID**: `Spidy-Controller-BETA`
 - **Password**: `12345678` (Some devices may require you to change this if the default isn't connecting)
 - **IP Address**: `192.168.4.1`
 
