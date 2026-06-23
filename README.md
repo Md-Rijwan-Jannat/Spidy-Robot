@@ -1,4 +1,4 @@
-# The Sesame Robot Project 
+# Spidy-Robot
 ___
 ![License](https://img.shields.io/badge/License-APACHE2.0-yellow)
 ![Microcontroller](https://img.shields.io/badge/Microcontroller-ESP32-blue)
@@ -132,4 +132,3 @@ I would also love to see forks of this project with new hardware, software, face
 ---
 
 *Created by [Dorian Todd](https://www.doriantodd.com/). Need help with your Sesame Robot? Send me a message on Discord, my username is "starphee"*
-# Spidy-Robot

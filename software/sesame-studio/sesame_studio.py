@@ -7,7 +7,7 @@ import ctypes
 class SesameStudioApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Sesame Studio")
+        self.root.title("Spidy Robot Studio")
         
         # Set Windows AppUserModelID to ensure taskbar icon shows correctly
         try:

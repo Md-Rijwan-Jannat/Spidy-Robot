@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/software/web-controller/$1" },
+    { "source": "/", "destination": "/software/web-controller/index.html" }
+  ]
+}
