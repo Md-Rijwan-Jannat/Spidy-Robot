@@ -1,10 +1,9 @@
-#include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
 #include <DNSServer.h>
 #include <ESPmDNS.h>
 #include <Wire.h>
-#include <Adafruit_PWMServoDriver.h>
+#include <ESP32Servo.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "face-bitmaps.h"
@@ -13,7 +12,7 @@
 
 // --- Access Point Configuration ---
 // This is the network the Robot will create
-#define AP_SSID  "Spidy-Controller"
+#define AP_SSID  "Spidy Robo"
 #define AP_PASS  "12345678" // Must be at least 8 characters
 
 // --- Station Mode Configuration (Optional) ---
@@ -36,9 +35,9 @@
 //#define I2C_SDA 21
 //#define I2C_SCL 22
 
-// I2C Pins for PCA9685 + OLED
-#define I2C_SDA 21
-#define I2C_SCL 22
+// I2C Pins for S2 Mini Board
+#define I2C_SDA 33
+#define I2C_SCL 35
 
 
 // DNS Server for Captive Portal
@@ -83,10 +82,18 @@ String deviceHostname = "sesame-robot";
 // Pin numbers are coorisponding to the ESP32 GPIO pins and may differ based on which board you use.
 // If you are using a different board, please adjust the servoPins array accordingly.
 // ======================================================================
-// PCA9685 Setup
-Adafruit_PWMServoDriver pca9685 = Adafruit_PWMServoDriver(0x40);
-#define SERVO_MIN  125  // 0 degrees pulse count
-#define SERVO_MAX  575  // 180 degrees pulse count
+Servo servos[8];
+// Sesame Distro Board V3 Pinout [NEW]
+//const int servoPins[8] = {4, 5, 6, 7, 10, 11, 12, 13};
+
+// Sesame Distro Board V2 Pinout (Legacy)
+//const int servoPins[8] = {4, 5, 6, 7, 15, 16, 17, 18};
+
+// Sesame Distro Board V1 Pinout (Legacy)
+//const int servoPins[8] = {15, 2, 23, 19, 4, 16, 17, 18};
+
+// Lolin S2 Mini Pinout
+const int servoPins[8] = {1, 2, 4, 6, 8, 10, 13, 14};
 
 // Subtrim values for each servo (offset in degrees)
 int8_t servoSubtrim[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -455,9 +462,17 @@ void setup() {
   
   server.begin();
 
-  // PWM Init via PCA9685
-  pca9685.begin();
-  pca9685.setPWMFreq(50);
+  // PWM Init
+  ESP32PWM::allocateTimer(0);
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+  
+  for (int i = 0; i < 8; i++) {
+    servos[i].setPeriodHertz(50);
+    // Map 0-180 to approx 732-2929us
+    servos[i].attach(servoPins[i], 732, 2929);
+  }
   delay(10);
   
   // Show rest face on startup without moving motors
@@ -756,8 +771,7 @@ void updateIdleBlink() {
 void setServoAngle(uint8_t channel, int angle) { 
   if (channel < 8) {
     int adjustedAngle = constrain(angle + servoSubtrim[channel], 0, 180);
-    int pulse = map(adjustedAngle, 0, 180, SERVO_MIN, SERVO_MAX);
-    pca9685.setPWM(channel, 0, pulse);
+    servos[channel].write(adjustedAngle);
     delayWithFace(motorCurrentDelay);
   }
 }
