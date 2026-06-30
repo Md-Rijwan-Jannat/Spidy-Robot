@@ -28,16 +28,16 @@
 #define OLED_I2C_ADDR 0x3C
 
 // I2C Pins for Distro Board V2 / V3
-//#define I2C_SDA 8
-//#define I2C_SCL 9
+#define I2C_SDA 8
+#define I2C_SCL 9
 
 // I2C Pins for Distro Board V1
 //#define I2C_SDA 21
 //#define I2C_SCL 22
 
 // I2C Pins for S2 Mini Board
-#define I2C_SDA 33
-#define I2C_SCL 35
+// #define I2C_SDA 33
+// #define I2C_SCL 35
 
 
 // DNS Server for Captive Portal
@@ -84,7 +84,7 @@ String deviceHostname = "sesame-robot";
 // ======================================================================
 Servo servos[8];
 // Sesame Distro Board V3 Pinout [NEW]
-//const int servoPins[8] = {4, 5, 6, 7, 10, 11, 12, 13};
+const int servoPins[8] = {4, 5, 6, 7, 10, 11, 12, 13};
 
 // Sesame Distro Board V2 Pinout (Legacy)
 //const int servoPins[8] = {4, 5, 6, 7, 15, 16, 17, 18};
@@ -93,7 +93,7 @@ Servo servos[8];
 //const int servoPins[8] = {15, 2, 23, 19, 4, 16, 17, 18};
 
 // Lolin S2 Mini Pinout
-const int servoPins[8] = {1, 2, 4, 6, 8, 10, 13, 14};
+//const int servoPins[8] = {1, 2, 4, 6, 8, 10, 13, 14};
 
 // Subtrim values for each servo (offset in degrees)
 int8_t servoSubtrim[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -198,6 +198,22 @@ void updateWifiInfoScroll();
 void recordInput();
 
 void handleRoot() {
+  String host = server.hostHeader();
+  String apIP = WiFi.softAPIP().toString();
+  String localIP = WiFi.localIP().toString();
+  
+  // Strip port if present
+  int colonIndex = host.indexOf(':');
+  if (colonIndex != -1) {
+    host = host.substring(0, colonIndex);
+  }
+  
+  if (host != apIP && host != "sesame-robot.local" && (localIP == "0.0.0.0" || host != localIP)) {
+    // Redirect to AP IP to trigger the portal properly and avoid relative fetch issues
+    server.sendHeader("Location", "http://" + apIP + "/", true);
+    server.send(302, "text/plain", "");
+    return;
+  }
   server.send(200, "text/html", index_html);
 }
 
@@ -472,8 +488,8 @@ void setup() {
     servos[i].setPeriodHertz(50);
     // Map 0-180 to approx 732-2929us
     servos[i].attach(servoPins[i], 732, 2929);
+    delay(100); // Staggered startup to prevent servo current spike brownout
   }
-  delay(10);
   
   // Show rest face on startup without moving motors
   setFace("rest");
@@ -767,11 +783,16 @@ void updateIdleBlink() {
   }
 }
 
-// ====== HELPERS ======
 void setServoAngle(uint8_t channel, int angle) { 
   if (channel < 8) {
     int adjustedAngle = constrain(angle + servoSubtrim[channel], 0, 180);
     servos[channel].write(adjustedAngle);
+    
+    // Debug printing to trace motor movements
+    Serial.print("Servo ["); Serial.print(channel);
+    Serial.print("] (GPIO "); Serial.print(servoPins[channel]);
+    Serial.print(") -> "); Serial.println(adjustedAngle);
+    
     delayWithFace(motorCurrentDelay);
   }
 }
